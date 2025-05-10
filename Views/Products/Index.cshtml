@@ -1,0 +1,157 @@
+﻿@model IEnumerable<AlphaMaterials.Models.Product>
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Список товаров";
+    int currentPage = ViewBag.PageNumber;
+    int totalPages = ViewBag.TotalPages;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Добавить новый товар</a>
+</p>
+
+<form method="get" asp-action="Index" class="row g-2 mb-4">
+    <div class="col-auto">
+        <input type="text" name="search" value="@ViewBag.Search"
+               class="form-control" placeholder="Поиск по названию" />
+    </div>
+    <div class="col-auto">
+        <select name="categoryId" class="form-select" asp-items="ViewBag.Categories">
+            <option value="">Все категории</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <select name="supplierId" class="form-select" asp-items="ViewBag.Suppliers">
+            <option value="">Все поставщики</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Фильтровать</button>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewBag.NameSortParam"
+                   asp-route-search="@ViewBag.Search"
+                   asp-route-categoryId="@ViewBag.CategoryId"
+                   asp-route-supplierId="@ViewBag.SupplierId"
+                   asp-route-pageNumber="1">
+                    Название
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewBag.CategorySortParam"
+                   asp-route-search="@ViewBag.Search"
+                   asp-route-categoryId="@ViewBag.CategoryId"
+                   asp-route-supplierId="@ViewBag.SupplierId"
+                   asp-route-pageNumber="1">
+                    Категория
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewBag.SupplierSortParam"
+                   asp-route-search="@ViewBag.Search"
+                   asp-route-categoryId="@ViewBag.CategoryId"
+                   asp-route-supplierId="@ViewBag.SupplierId"
+                   asp-route-pageNumber="1">
+                    Поставщик
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewBag.PriceSortParam"
+                   asp-route-search="@ViewBag.Search"
+                   asp-route-categoryId="@ViewBag.CategoryId"
+                   asp-route-supplierId="@ViewBag.SupplierId"
+                   asp-route-pageNumber="1">
+                    Цена
+                </a>
+            </th>
+            <th>Наличие</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Category.Name</td>
+                    <td>@item.Supplier.Name</td>
+                    <td>@item.Price.ToString("F2")</td>
+                    <td style="color:@(item.StockQuantity > 0 ? "black" : "red")">
+                        @(item.StockQuantity > 0 ? item.StockQuantity.ToString() : "Нет в наличии")
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Просмотр</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center">Товары не найдены</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (totalPages > 1)
+{
+    <nav>
+        <ul class="pagination">
+            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-pageNumber="@(currentPage - 1)"
+                   asp-route-search="@ViewBag.Search"
+                   asp-route-categoryId="@ViewBag.CategoryId"
+                   asp-route-supplierId="@ViewBag.SupplierId"
+                   asp-route-sortOrder="@ViewBag.CurrentSort">
+                    &laquo;
+                </a>
+            </li>
+
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(i == currentPage ? "active" : "")">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-pageNumber="@i"
+                       asp-route-search="@ViewBag.Search"
+                       asp-route-categoryId="@ViewBag.CategoryId"
+                       asp-route-supplierId="@ViewBag.SupplierId"
+                       asp-route-sortOrder="@ViewBag.CurrentSort">
+                        @i
+                    </a>
+                </li>
+            }
+
+            <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-pageNumber="@(currentPage + 1)"
+                   asp-route-search="@ViewBag.Search"
+                   asp-route-categoryId="@ViewBag.CategoryId"
+                   asp-route-supplierId="@ViewBag.SupplierId"
+                   asp-route-sortOrder="@ViewBag.CurrentSort">
+                    &raquo;
+                </a>
+            </li>
+        </ul>
+    </nav>
+}

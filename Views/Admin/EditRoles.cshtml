@@ -1,0 +1,28 @@
+﻿@model AlphaMaterials.Models.EditRolesViewModel
+
+@{
+    ViewData["Title"] = "Изменить роли";
+}
+
+<h1>@ViewData["Title"] для @Model.Email</h1>
+
+<form asp-action="EditRoles" method="post">
+    <input type="hidden" asp-for="UserId" />
+
+    @* Перебираем чекбоксы *@
+    @for (var i = 0; i < Model.Roles.Count; i++)
+    {
+        @* Это скрытое поле обеспечивает, что RoleName придёт в POST *@
+        <input type="hidden" asp-for="Roles[i].RoleName" />
+
+        <div class="form-check mb-2">
+            <input asp-for="Roles[i].IsSelected" class="form-check-input" />
+            <label asp-for="Roles[i].IsSelected" class="form-check-label">
+                @Model.Roles[i].RoleName
+            </label>
+        </div>
+    }
+
+    <button type="submit" class="btn btn-success">Сохранить</button>
+    <a asp-action="Users" class="btn btn-secondary ms-2">Отмена</a>
+</form>

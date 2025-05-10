@@ -1,0 +1,128 @@
+﻿@model IEnumerable<AlphaMaterials.Models.Operation>
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Операции";
+    var current = ViewBag.CurrentPage as int? ?? 1;
+    var total = ViewBag.TotalPages as int? ?? 1;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="get" asp-action="Index" class="row gy-2 gx-3 align-items-end mb-4">
+    <div class="col-auto">
+        <label for="fromDate" class="form-label">Дата с</label>
+        <input type="date" id="fromDate" name="fromDate"
+               value="@ViewBag.FromDate" class="form-control" />
+    </div>
+    <div class="col-auto">
+        <label for="toDate" class="form-label">по</label>
+        <input type="date" id="toDate" name="toDate"
+               value="@ViewBag.ToDate" class="form-control" />
+    </div>
+    <div class="col-auto">
+        <label for="type" class="form-label">Тип</label>
+        <select id="type" name="type" class="form-select"
+                asp-items="ViewBag.Types">
+        </select>
+    </div>
+    <div class="col-auto">
+        <label for="employeeId" class="form-label">Сотрудник</label>
+        <select id="employeeId" name="employeeId" class="form-select"
+                asp-items="ViewBag.Employees">
+            <option value="">Все</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Применить</button>
+    </div>
+    <div class="col-auto">
+        <a class="btn btn-outline-success"
+           asp-action="Export"
+           asp-route-fromDate="@ViewBag.FromDate"
+           asp-route-toDate="@ViewBag.ToDate"
+           asp-route-type="@ViewBag.Type"
+           asp-route-employeeId="@ViewBag.EmployeeId">
+            Экспорт в Excel
+        </a>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Тип</th>
+            <th>Документ</th>
+            <th>Сотрудник</th>
+            <th>Кол-во позиций</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            foreach (var op in Model)
+            {
+                <tr>
+                    <td>@op.Date.ToString("dd.MM.yyyy")</td>
+                    <td>
+                        @(op.Type switch
+                        {
+                            "Purchase" => "Закупка",
+                            "Sale" => "Продажа",
+                            "WriteOff" => "Списание",
+                            _ => op.Type
+                        })
+                    </td>
+                    <td>@op.DocumentNo</td>
+                    <td>@op.Employee.FullName</td>
+                    <td>@op.Rows.Count</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@op.Id">Детали</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center">Операции не найдены</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav aria-label="Навигация по страницам">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @(current <= 1 ? "disabled" : "")">
+            <a class="page-link"
+               asp-route-page="@(current - 1)"
+               asp-route-fromDate="@ViewBag.FromDate"
+               asp-route-toDate="@ViewBag.ToDate"
+               asp-route-type="@ViewBag.Type"
+               asp-route-employeeId="@ViewBag.EmployeeId">‹ Пред.</a>
+        </li>
+
+        @for (int i = 1; i <= total; i++)
+        {
+            <li class="page-item @(i == current ? "active" : "")">
+                <a class="page-link"
+                   asp-route-page="@i"
+                   asp-route-fromDate="@ViewBag.FromDate"
+                   asp-route-toDate="@ViewBag.ToDate"
+                   asp-route-type="@ViewBag.Type"
+                   asp-route-employeeId="@ViewBag.EmployeeId">@i</a>
+            </li>
+        }
+
+        <li class="page-item @(current >= total ? "disabled" : "")">
+            <a class="page-link"
+               asp-route-page="@(current + 1)"
+               asp-route-fromDate="@ViewBag.FromDate"
+               asp-route-toDate="@ViewBag.ToDate"
+               asp-route-type="@ViewBag.Type"
+               asp-route-employeeId="@ViewBag.EmployeeId">След. ›</a>
+        </li>
+    </ul>
+</nav>

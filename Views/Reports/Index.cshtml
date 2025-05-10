@@ -1,0 +1,17 @@
+﻿@*
+    Views/Reports/Index.cshtml
+*@
+
+@{
+    ViewData["Title"] = "Отчёты";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>Сформируйте отчёт по остаткам на складе:</p>
+
+<form method="get" asp-action="Stock" asp-controller="Reports">
+    <button type="submit" class="btn btn-primary">
+        Скачать Excel-отчёт по остаткам
+    </button>
+</form>

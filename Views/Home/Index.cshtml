@@ -1,0 +1,78 @@
+﻿@{
+    ViewData["Title"] = "Главная";
+}
+
+<section class="mt-4">
+    <div class="container">
+        <h1 class="mb-4">@ViewData["Title"]</h1>
+        <p class="lead">Добро пожаловать в систему учёта материалов ООО «Альфа».</p>
+
+        <div class="row gy-4">
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Категории</h5>
+                        <p class="card-text flex-grow-1">Добавление и редактирование категорий товаров.</p>
+                        <a asp-controller="Categories" asp-action="Index" class="btn btn-primary mt-auto">Перейти</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Поставщики</h5>
+                        <p class="card-text flex-grow-1">Управление данными поставщиков.</p>
+                        <a asp-controller="Suppliers" asp-action="Index" class="btn btn-primary mt-auto">Перейти</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Товары</h5>
+                        <p class="card-text flex-grow-1">Каталог товаров и управление остатками.</p>
+                        <a asp-controller="Products" asp-action="Index" class="btn btn-primary mt-auto">Перейти</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Сотрудники</h5>
+                        <p class="card-text flex-grow-1">Справочник сотрудников компании.</p>
+                        <a asp-controller="Employees" asp-action="Index" class="btn btn-primary mt-auto">Перейти</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Операции</h5>
+                        <p class="card-text flex-grow-1">Учёт закупок, продаж и списаний.</p>
+                        <a asp-controller="Operations" asp-action="Index" class="btn btn-primary mt-auto">Перейти</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Отчёты</h5>
+                        <p class="card-text flex-grow-1">Формирование Excel-отчётов по остаткам и операциям.</p>
+                        <a asp-controller="Reports" asp-action="Index" class="btn btn-primary mt-auto">Перейти</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5">
+            <h2>Политика конфиденциальности</h2>
+            <p>Узнайте, как мы защищаем ваши данные.</p>
+            <a asp-controller="Home" asp-action="Privacy" class="btn btn-outline-secondary">Читать</a>
+        </div>
+    </div>
+</section>
