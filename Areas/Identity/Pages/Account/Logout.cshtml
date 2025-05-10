@@ -1,0 +1,11 @@
+﻿@page
+@model AlphaMaterials.Areas.Identity.Pages.Account.LogoutModel
+@{
+    ViewData["Title"] = "Выход";
+}
+
+<h1>@ViewData["Title"]</h1>
+<form method="post">
+    <button type="submit" class="btn btn-danger">Выйти</button>
+    <a asp-page="/Index" class="btn btn-secondary">Отмена</a>
+</form>

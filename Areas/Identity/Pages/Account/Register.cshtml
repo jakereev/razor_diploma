@@ -1,0 +1,43 @@
+﻿@page
+@model AlphaMaterials.Areas.Identity.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@* Успешная регистрация *@
+@if (TempData["RegisterSuccess"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["RegisterSuccess"]
+    </div>
+}
+
+@* Сюда попадут ошибки валидации и ошибки создания пользователя *@
+<div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+<form method="post" class="row g-3">
+    <div class="col-12">
+        <label asp-for="Input.Email" class="form-label"></label>
+        <input asp-for="Input.Email" class="form-control" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="Input.Password" class="form-label"></label>
+        <input asp-for="Input.Password" class="form-control" />
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="Input.ConfirmPassword" class="form-label"></label>
+        <input asp-for="Input.ConfirmPassword" class="form-control" />
+        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

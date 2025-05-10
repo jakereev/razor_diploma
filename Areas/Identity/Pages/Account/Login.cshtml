@@ -1,0 +1,46 @@
+﻿@page
+@model AlphaMaterials.Areas.Identity.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Вход";
+}
+
+<h1 class="mb-4">@ViewData["Title"]</h1>
+
+@* Показываем ошибку из TempData (ErrorMessage) *@
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+@* Резюме валидации (ModelState) *@
+<div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+<form method="post" class="row g-3">
+    <div class="col-12">
+        <label asp-for="Input.Email" class="form-label"></label>
+        <input asp-for="Input.Email" class="form-control" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="Input.Password" class="form-label"></label>
+        <input asp-for="Input.Password" class="form-control" />
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+    </div>
+    <div class="col-12 form-check">
+        <input asp-for="Input.RememberMe" class="form-check-input" />
+        <label asp-for="Input.RememberMe" class="form-check-label"></label>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Войти</button>
+    </div>
+    <div class="col-12">
+        <p class="mt-2">
+            Нет аккаунта?
+            <a asp-area="Identity" asp-page="/Account/Register">Зарегистрироваться</a>
+        </p>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
